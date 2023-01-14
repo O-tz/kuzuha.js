@@ -20,9 +20,9 @@ html(lang="ja")
                 a(href=`/bbs/thread/${msg.threadid}`) ◆ 
             - content = msg.content.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
             p#message 
-                != content 
+                != content.replace(/\n/g, "<br>")
         hr
-        
+        |フォロー記事投稿
         form(action=`/bbs/follow/:${targetid}` , method="post") 
             |投稿者 
             input(type="text",name="postPoster", maxlength="30", value ="")
@@ -49,3 +49,4 @@ html(lang="ja")
                 ="\n\n"
             br
             br
+        hr
