@@ -20,6 +20,15 @@ router.get("/-:until", bbsController.bbsMattariload);
 // POST メッセージ //
 router.post("/", bbsController.bbsMessagePost);
 
+// GET フォロー投稿//
+router.get("/follow/:id", bbsController.bbsFollowPostPage);
+// POST フォロー投稿//
+router.post("/follow/:targetid", bbsController.bbsFollowPost);
+
+// GET スレッド表示//
+router.get("/thread/:id", bbsController.bbsThreadShow);
+
+
 // GET BBS ヽ(´ー｀)ノロード //
 //router.get("/mattari", bbsController.mattari);
 

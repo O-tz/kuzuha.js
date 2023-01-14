@@ -85,17 +85,17 @@ html(lang="ja")
                     a(name=(msg._id))
                     h3 
                         strong 
-                            = "＞" + msg.title
+                            = msg.title
                         | 投稿者：
                         =msg.name
                         small 
                             = "投稿日：" + msg.date.toLocaleString() 
                         small 
-                            a(href="") ■ 
-                            a(href="") ◆ 
+                            a(href=`/bbs/follow/${msg._id}`) ■ 
+                            a(href=`/bbs/thread/${msg.threadid}`) ◆ 
                         - content = msg.content.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
                         p#message 
-                            != content 
+                            != content.replace(/\n/g, "<br>") 
                     hr
             //- address  = `${hostAddress}/bbs`
             - lastmsgdate = messages[messages.length-1].date.getTime()

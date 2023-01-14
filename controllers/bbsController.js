@@ -16,22 +16,6 @@ exports.index = function(req, res){
 
 exports.bbs = async (req, res) => {
     let limit = bbsInstance.msgDisp;
-    /*
-    BBSLogModel.find({}, "content name date title address _id", (err, docs) => {
-        console.log("---" + docs.content + "---");
-        for (const doc in docs){
-            console.log(doc.get("content"));
-        }
-
-        res.render("bbs", {
-            hostAddress: bbsInstance.hostAddress,
-            mailto: "mailto:" + bbsInstance.mailaddress,
-            foundeddate: bbsInstance.foundedDate.toDateString(),
-            messages: docs,
-            error: err
-        });
-    });
-    */
 
     let cursor = BBSLogModel.find({}).limit(limit).sort({date: "desc"}).cursor();
     let messages = [];
@@ -56,6 +40,7 @@ exports.bbsMessagePost = (req, res) => {
             date: new Date(Date.now()),
             address: req.body.postMailaddress
         });
+        log.threadid = log._id.toString();
         log.save((err) => {
             res.redirect("/bbs");
         });
@@ -101,3 +86,37 @@ exports.bbsMattariload = async (req, res) => {
         messages: messages
     });
 };
+
+exports.bbsFollowPostPage = async (req, res) => {
+    let doc = await BBSLogModel.findById(req.params.id).cursor().next();
+    res.render("bbsfollow", {
+        targetid: req.params.id,
+        msg: doc,
+    })
+}
+
+exports.bbsFollowPost = async (req, res) => {
+    let log = new BBSLogModel({
+        name: req.body.postPoster,
+        title: req.body.postTitle,
+        content: req.body.postContent,
+        date: new Date(Date.now()),
+        address: req.body.postMailaddress,
+        threadid: req.body.targetId
+    })
+    await log.save();
+    res.redirect("/bbs");
+}
+
+exports.bbsThreadShow = async (req, res) => {
+    const arr = await BBSLogModel.find({ threadid: req.params.id }).sort({ date: "desc" });
+    let messages = [];
+    for(doc of arr){
+        messages.push(doc);
+        console.log("pushing")
+    }
+    res.render("bbsthread", {
+        messages: messages
+    })
+
+}

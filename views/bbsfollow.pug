@@ -1,0 +1,50 @@
+doctype html
+html(lang="ja")
+    head 
+        meta(charset="utf-8")
+        meta(http-equiv="Content-Security-Policy", content="form-action 'self'")
+        title あやしいわーるど＠js　フォロー投稿
+        link(rel="stylesheet", href="/css/bbs.css")
+    body
+        hr
+        a(name=(msg._id))
+        h3.post  
+            strong 
+                = "＞" + msg.title
+            | 投稿者：
+            =msg.name
+            small 
+                = "投稿日：" + msg.date.toLocaleString() 
+            small 
+                a(href=`/bbs/follow/${msg._id}`) ■ 
+                a(href=`/bbs/thread/${msg.threadid}`) ◆ 
+            - content = msg.content.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
+            p#message 
+                != content 
+        hr
+        
+        form(action=`/bbs/follow/:${targetid}` , method="post") 
+            |投稿者 
+            input(type="text",name="postPoster", maxlength="30", value ="")
+            br
+            |メール 
+            input(type="text", name="postMailaddress", maxlength="255", value="")
+            br
+            |題名　 
+            input(type="text", name="postTitle", maxlength="40", value="＞")  
+            | 
+            input(type="submit", value="投稿／リロード")
+            | 
+            input(type="reset", value="消す")
+            br
+            input(type="hidden", name="targetId", value=`${targetid}`)
+            br
+            | 内容
+            small 
+                em （違法な内容やリンクは投稿しないでください。公的機関からの投稿者開示請求にこたえる場合があります。）
+            br
+            textarea#content(name="postContent", cols="70", rows="5")
+                =`${msg.content.replace(/^/g, "> ")}`
+                ="\n\n"
+            br
+            br

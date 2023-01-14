@@ -1,0 +1,25 @@
+doctype html
+html(lang="ja")
+    head 
+        meta(charset="utf-8")
+        meta(http-equiv="Content-Security-Policy", content="form-action 'self'")
+        title あやしいわーるど＠js
+        link(rel="stylesheet", href="/css/bbs.css")
+    body
+        hr
+        -   for (const msg of messages)
+                a(name=(msg._id))
+                h3 
+                    strong 
+                        = msg.title
+                    | 投稿者：
+                    =msg.name
+                    small 
+                        = "投稿日：" + msg.date.toLocaleString() 
+                    small 
+                        a(href=`/bbs/follow/${msg._id}`) ■ 
+                        a(href=`/bbs/thread/${msg.threadid}`) ◆ 
+                    - content = msg.content.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
+                    p#message 
+                        != content.replace(/\n/g, "<br>") 
+                hr
