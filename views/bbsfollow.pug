@@ -37,14 +37,15 @@ html(lang="ja")
             | 
             input(type="reset", value="消す")
             br
-            input(type="hidden", name="targetId", value=`${targetid}`)
+            input(type="hidden", name="targetId", value=`${msg.threadid}`)
             br
             | 内容
             small 
                 em （違法な内容やリンクは投稿しないでください。公的機関からの投稿者開示請求にこたえる場合があります。）
             br
             textarea#content(name="postContent", cols="70", rows="5")
-                =`${msg.content.replace(/^/g, "> ")}`
+                ="> "
+                =`${msg.content.replace(/\n/g, "\n> ")}`
                 ="\n\n"
             br
             br

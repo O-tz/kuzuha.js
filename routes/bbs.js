@@ -21,9 +21,9 @@ router.get("/-:until", bbsController.bbsMattariload);
 router.post("/", bbsController.bbsMessagePost);
 
 // GET フォロー投稿//
-router.get("/follow/:id", bbsController.bbsFollowPostPage);
+router.get("/follow/:id", bbsController.bbsFollowPostPage); //直接のフォロー先ID
 // POST フォロー投稿//
-router.post("/follow/:targetid", bbsController.bbsFollowPost);
+router.post("/follow/:targetid", bbsController.bbsFollowPost); //根のフォロー先ID
 
 // GET スレッド表示//
 router.get("/thread/:id", bbsController.bbsThreadShow);
