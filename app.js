@@ -26,7 +26,7 @@ let app = express();
 
 
 // mongoose 接続設定 //
-let mongoDB = `mongodb+srv://${process.env.username}:${process.env.password}@kuzuhajs.${process.env.monogoDBid}.mongodb.net/kuzuhajs?retryWrites=true&w=majority`
+let mongoDB = `mongodb+srv://${process.env.username}:${process.env.password}@kuzuhajs.${process.env.mongoDBid}.mongodb.net/kuzuhajs?retryWrites=true&w=majority`
 mongoose.connect(mongoDB);
 //mongooseがglobal promise libraryを使うようにする
 mongoose.Promise = global.Promise;
