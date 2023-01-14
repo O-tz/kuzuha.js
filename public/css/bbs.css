@@ -1,0 +1,32 @@
+h1#title {
+    display: inline;
+    font-size: large;
+}
+
+body {
+    background-color: #004040;
+    color: aliceblue;
+}
+
+blockquote .quote {
+    color: #d1d1d1;
+}
+
+a:link {
+    color: #eeffee;
+}
+a:visited {
+    color: #dddddd;
+}
+a:active {
+    color: #ff0000;
+}
+
+#message {
+    padding-left: 3em;
+    font-size: smaller;
+}
+
+html {
+    font-size: -1;
+}

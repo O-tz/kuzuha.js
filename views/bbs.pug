@@ -1,0 +1,119 @@
+doctype html
+html(lang="ja")
+    head 
+        meta(charset="utf-8")
+        meta(http-equiv="Content-Security-Policy", content="form-action 'self'")
+        title あやしいわーるど＠js
+        link(rel="stylesheet", href="/css/bbs.css")
+    body
+        h1#title  あやしいわーるど＠js
+        | 
+        small
+            a(href="/") 広報室
+        |    
+        small
+            - let mail= mailto;
+            a(href=mail) 連絡先
+        |
+        p  
+            //- let addrs= hostAddress;
+            //- addrs = addrs + "/bbs";
+            form(action="/bbs" , method="post") 
+                |投稿者 
+                input(type="text",name="postPoster", maxlength="30", value ="")
+                br
+                |メール 
+                input(type="text", name="postMailaddress", maxlength="255", value="")
+                br
+                |題名　 
+                input(type="text", name="postTitle", maxlength="40", value="")
+                | 
+                input(type="submit", value="投稿／リロード")
+                | 
+                input(type="reset", value="消す")
+                br
+                br
+                | 内容
+                small 
+                    em （違法な内容やリンクは投稿しないでください。公的機関からの投稿者開示請求にこたえる場合があります。）
+                br
+                textarea#content(name="postContent", cols="70", rows="5")
+                br
+                br
+                del URL 
+                        small
+                            em （リンクを入れたい場合はここに記入します）
+                br
+                input(type="text", size="70", name="post-url", maxlength="255", value="")
+                p 
+                    small
+                        del 表示件数 
+                        input(type="text", size="6", name="post-number-of-posts-displayed")
+                        //-smaller 
+                            | URL自動リンク 
+                            input(type="checkbox", name="post-check-auto-link", value="checked", checked="")
+                        
+                        input(type="submit", name="setup", value="その他の設定", disabled)
+                small 
+                    - let founddate = foundeddate 
+                        let cntr = counter 
+                    = founddate +  "から " + "cntr  \(こわれにくさレベル#{level-not-doomedness}\)　現在の参加者 : #{number-participants} \(300秒以内\)"
+        hr 
+        |■ : フォロー投稿画面表示 　 
+        del ★ : 投稿者検索表示
+        | 　 ◆ : スレッド表示 　　　最大登録件数 : ?件
+        hr
+        //- address  = hostAddress + "/bbs"
+        if messages.length == []
+            - mattariaddress = `/bbs/-${mattaritime}`
+                form(action="/bbs", method="get") 
+                    button(type="submit") リロード 
+                    | 
+                    button(type="submit", formaction=mattariaddress) ヽ(´ー｀)ノロード     
+            hr
+        else 
+            - firstmsgdate = messages[0].date.getTime()
+            - if (mattaritime == null)
+                -mattaritime = firstmsgdate
+            - mattariaddress = `/bbs/-${mattaritime}`
+                form(action="/bbs", method="get") 
+                    button(type="submit") リロード 
+                    | 
+                    button(type="submit", formaction=mattariaddress) ヽ(´ー｀)ノロード     
+            hr
+            -   for (const msg of messages)
+                    a(name=(msg._id))
+                    h3 
+                        strong 
+                            = "＞" + msg.title
+                        | 投稿者：
+                        =msg.name
+                        small 
+                            = "投稿日：" + msg.date.toLocaleString() 
+                        small 
+                            a(href="") ■ 
+                            a(href="") ◆ 
+                        - content = msg.content.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
+                        p#message 
+                            != content 
+                    hr
+            //- address  = `${hostAddress}/bbs`
+            - lastmsgdate = messages[messages.length-1].date.getTime()
+            - firstmsgdate = messages[0].date.getTime()
+            //- memmessagedate = memorizedFirstMessageDate.getTime()
+            =mattaritime
+            - nextaddress = `/bbs/${mattaritime}.${lastmsgdate}-` //+ "&mem=" + memmessagedate
+            - mattariaddress = `/bbs/-${mattaritime}`
+                form(action="/bbs", method="get") 
+                    button(type="submit", formaction=nextaddress) 次のページ 
+                    | 
+                    button(type="submit") リロード 
+                    | 
+                    button(type="submit", formaction=mattariaddress) ヽ(´ー｀)ノロード
+
+
+
+        
+
+
+        

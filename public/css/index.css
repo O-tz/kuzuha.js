@@ -1,0 +1,13 @@
+body {
+    background-color: #004040;
+    color: aliceblue;
+}
+a:link {
+    color: #eeffee;
+}
+a:visited {
+    color: #dddddd;
+}
+a:active {
+    color: #ff0000;
+}
