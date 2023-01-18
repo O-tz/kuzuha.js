@@ -7,6 +7,7 @@ let bbsController = require("../controllers/bbsController");
 // BBS 関連ルート //
 
 // GET BBS //
+router.get("/read", bbsController.bbs);
 router.get("/", bbsController.bbs);
 /*
 // GET BBS with query //

@@ -63,8 +63,11 @@ html(lang="ja")
         hr
         
         - now = Date.now()
+        - mattaritime ? mattaritime : ""
+        - since ? since : ""
+        - until ? until : ""
         if messages.length == []
-            - mattariaddress = `/bbs/${mattaritime}.${mattaritime}-0`
+            - mattariaddress = `/bbs/read?mattari=&since=${mattaritime}&until=`
                 form(action="/bbs", method="get") 
                     button(type="submit") リロード 
                     | 
@@ -74,7 +77,7 @@ html(lang="ja")
             - firstmsgdate = messages[0].date.getTime()
             - if (!mattaritime)
                 -mattaritime = firstmsgdate
-            - mattariaddress = `/bbs/${now}.${mattaritime}-0`
+            - mattariaddress = `/bbs/read?mattari=&since=${mattaritime}&until=`
                 form(action="/bbs", method="get") 
                     button(type="submit") リロード 
                     | 
@@ -97,16 +100,14 @@ html(lang="ja")
                             != content.replace(/\n/g, "<br>") 
                     hr
             - lastmsgdate = messages[messages.length-1].date.getTime()
-            - firstmsgdate = messages[0].date.getTime()
             =mattaritime
-            - since = since ? since : 0
-            - nextaddress = `/bbs/${mattaritime}.${since}-${lastmsgdate}` //+ "&mem=" + memmessagedate
+            - nextaddress = `/bbs/read?mattari=${mattaritime}&since=${since}&until=${lastmsgdate}` //+ "&mem=" + memmessagedate
                 form(action="/bbs", method="get") 
-                    button(type="submit", formaction=nextaddress) 次のページ 
+                    input(type="submit", formaction=nextaddress, value="次のページ")  
                     | 
-                    button(type="submit") リロード 
+                    input(type="submit", value="リロード")  
                     | 
-                    button(type="submit", formaction=mattariaddress) ヽ(´ー｀)ノロード
+                    input(type="submit", formaction=mattariaddress, value="ヽ(´ー｀)ノロード") 
 
 
 

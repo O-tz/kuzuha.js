@@ -17,18 +17,61 @@ exports.index = function(req, res){
 };
 
 exports.bbs = async (req, res) => {
-
-    let cursor = BBSLogModel.find({}).limit(msgDisp).sort({date: "desc"}).cursor();
-    let messages = [];
-    for (let doc = await cursor.next(); doc != null; doc = await cursor.next()){
-        messages.push(doc);
+    if (!req.query.mattari) {
+        if(!req.query.since){
+            let cursor = BBSLogModel.find({}).limit(msgDisp).sort({date: "desc"}).cursor();
+            let messages = [];
+            for (let doc = await cursor.next(); doc != null; doc = await cursor.next()){
+                messages.push(doc);
+            }
+            res.render("bbs", {
+                mailto: "mailto:" + mailto,
+                foundeddate: foundedDate,
+                messages: messages,
+                since: "",
+                until: "",
+                mattaritime: ""
+            });
+        }else{
+            //ヽ(´ー｀)ノロード
+            const since = new Date(parseInt(req.query.since));
+            const until = new Date(Date.now());
+            let cursor = BBSLogModel.find({date: {$gt: since, $lte: until}}).limit(msgDisp).sort({date: "desc"}).cursor();
+            let messages = [];
+            for (let doc = await cursor.next(); doc != null; doc = await cursor.next()){
+                messages.push(doc);
+            }
+            res.render("bbs", {
+                mailto: "mailto:" + mailto,
+                foundeddate: foundedDate,
+                messages: messages,
+                mattaritime: until.getTime()
+            });
+        }
+    }else {
+        //次のページ
+        const until = new Date(parseInt(req.query.until));
+        const since = req.query.since ? req.query.since : "";
+        let cursor;
+        if (since){
+            cursor = BBSLogModel.find({date: {$gte: new Date(parse(since)), $lt: until}}).limit(msgDisp).sort({date: "desc"}).cursor();
+        }else{
+            cursor = BBSLogModel.find({date: {$lt: until}}).limit(msgDisp).sort({date: "desc"}).cursor();
+        }
+        let messages = [];
+        for (let doc = await cursor.next(); doc != null; doc = await cursor.next()){
+            messages.push(doc);
+        }
+        res.render("bbs", {
+            mailto: "mailto:" + mailto,
+            foundeddate: foundedDate,
+            messages: messages,
+            mattaritime: req.query.mattari,
+            until: until.getTime(),
+            since: since
+        });
     }
-    res.render("bbs", {
-        mailto: "mailto:" + mailto,
-        foundeddate: foundedDate,
-        messages: messages,
-        mattaritime: null
-    });
+    
 };
 
 exports.bbsMessagePost = (req, res) => {
