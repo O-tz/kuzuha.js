@@ -94,6 +94,59 @@ exports.bbsMessagePost = (req, res) => {
     }
 };
 
+exports.bbsFollowPostPage = async (req, res) => {
+    let doc = await BBSLogModel.findById(req.params.id).cursor().next();
+    res.render("bbsfollow", {
+        targetid: req.params.id,
+        msg: doc,
+    })
+}
+
+exports.bbsFollowPost = async (req, res) => {
+    let log = new BBSLogModel({
+        name: req.body.postPoster,
+        title: req.body.postTitle,
+        content: req.body.postContent,
+        date: new Date(Date.now()),
+        address: req.body.postMailaddress,
+        threadid: req.body.targetId,
+        parentId: req.body.parentId
+    })
+    await log.save();
+    res.redirect("/bbs");
+}
+
+exports.bbsThreadShow = async (req, res) => {
+    const arr = await BBSLogModel.find({ threadid: req.params.id }).sort({ date: "desc" });
+    let messages = [];
+    for(doc of arr){
+        messages.push(doc);
+        console.log("pushing")
+    }
+    res.render("bbsthread", {
+        messages: messages
+    })
+
+}
+
+/*
+exports.bbsIntegration = async (req, res) => {
+    const mattaritime = req.params.mattaritime ? req.params.mattaritime : "";
+    const since = req.params.since ? new Date(parseInt(req.params.since)) : new Date(0);
+    const until = req.params.until ? new Date(parseInt(req.params.until)) : new Date(Date.now());
+    let cursor = BBSLogModel.find({"date": {$gt: since, $lt: until}}).limit(msgDisp).sort({date: "desc"}).cursor();
+    let messages = [];
+    for (let doc = await cursor.next(); doc != null; await cursor.next()) {
+        messages.push(doc);
+    }
+    res.render("bbs", {
+        mattaritime: mattaritime,
+        messages: messages,
+        since: since.getTime(),
+        until: until.getTime(),
+    })
+}
+
 exports.bbsNextPage = async (req, res) => {
     console.log(req.params.since);
     let time = new Date(Number(req.params.since));
@@ -129,53 +182,4 @@ exports.bbsMattariload = async (req, res) => {
     });
 };
 
-exports.bbsFollowPostPage = async (req, res) => {
-    let doc = await BBSLogModel.findById(req.params.id).cursor().next();
-    res.render("bbsfollow", {
-        targetid: req.params.id,
-        msg: doc,
-    })
-}
-
-exports.bbsFollowPost = async (req, res) => {
-    let log = new BBSLogModel({
-        name: req.body.postPoster,
-        title: req.body.postTitle,
-        content: req.body.postContent,
-        date: new Date(Date.now()),
-        address: req.body.postMailaddress,
-        threadid: req.body.targetId
-    })
-    await log.save();
-    res.redirect("/bbs");
-}
-
-exports.bbsThreadShow = async (req, res) => {
-    const arr = await BBSLogModel.find({ threadid: req.params.id }).sort({ date: "desc" });
-    let messages = [];
-    for(doc of arr){
-        messages.push(doc);
-        console.log("pushing")
-    }
-    res.render("bbsthread", {
-        messages: messages
-    })
-
-}
-
-exports.bbsIntegration = async (req, res) => {
-    const mattaritime = req.params.mattaritime ? req.params.mattaritime : "";
-    const since = req.params.since ? new Date(parseInt(req.params.since)) : new Date(0);
-    const until = req.params.until ? new Date(parseInt(req.params.until)) : new Date(Date.now());
-    let cursor = BBSLogModel.find({"date": {$gt: since, $lt: until}}).limit(msgDisp).sort({date: "desc"}).cursor();
-    let messages = [];
-    for (let doc = await cursor.next(); doc != null; await cursor.next()) {
-        messages.push(doc);
-    }
-    res.render("bbs", {
-        mattaritime: mattaritime,
-        messages: messages,
-        since: since.getTime(),
-        until: until.getTime(),
-    })
-}
+*/

@@ -17,7 +17,7 @@ router.get("/:mattaritime.:since-", bbsController.bbsIntegration);
 router.get("/-:until", bbsController.bbsIntegration);
 //次のページ・まったりロード統合
 */
-router.get("/:mattaritime.:since-:until", bbsController.bbsIntegration);
+//router.get("/:mattaritime.:since-:until", bbsController.bbsIntegration);
 
 // POST メッセージ //
 router.post("/", bbsController.bbsMessagePost);

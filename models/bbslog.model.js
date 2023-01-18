@@ -14,7 +14,8 @@ let BBSLogModelSchema = new Schema({
     parent: {type: String, default: ""},
     childs: {type: String, default: ""}
     */
-    threadid: {type: String, default: ""} //根の_id
+    threadid: {type: String, default: ""}, //根の_id
+    parentId: {type: String, default: ""}
 });
 
 // bbs ログインスタンスの URL 用 Virtual

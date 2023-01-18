@@ -30,3 +30,11 @@ a:active {
 html {
     font-size: -1;
 }
+
+.ReloadForm form {
+    display: inline;
+}
+
+#message .quote {
+    color: #d1d1d1;
+}

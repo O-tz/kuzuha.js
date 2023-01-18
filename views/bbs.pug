@@ -15,7 +15,7 @@ html(lang="ja")
             - let mail= mailto;
             a(href=mail) 連絡先
         |
-        p  
+        .PostForm
             form(action="/bbs" , method="post") 
                 |投稿者 
                 input(type="text",name="postPoster", maxlength="30", value ="")
@@ -67,21 +67,30 @@ html(lang="ja")
         - since ? since : ""
         - until ? until : ""
         if messages.length == []
-            - mattariaddress = `/bbs/read?mattari=&since=${mattaritime}&until=`
+            - mattariaddress = `/bbs/read`
+            .ReloadForm
+                |
                 form(action="/bbs", method="get") 
                     button(type="submit") リロード 
-                    | 
-                    button(type="submit", formaction=mattariaddress) ヽ(´ー｀)ノロード     
+                form(action=mattariaddress, method="get") 
+                    input(type="hidden", name="mattari", value="")
+                    input(type="hidden", name="since", value=`${mattaritime}`)
+                    input(type="hidden", name="until", value="")
+                    button(type="submit", ) ヽ(´ー｀)ノロード     
             hr
         else 
             - firstmsgdate = messages[0].date.getTime()
             - if (!mattaritime)
                 -mattaritime = firstmsgdate
-            - mattariaddress = `/bbs/read?mattari=&since=${mattaritime}&until=`
+            - mattariaddress = `/bbs/read`
+            .ReloadForm
                 form(action="/bbs", method="get") 
                     button(type="submit") リロード 
-                    | 
-                    button(type="submit", formaction=mattariaddress) ヽ(´ー｀)ノロード     
+                form(action=mattariaddress, method="get") 
+                    input(type="hidden", name="mattari", value="")
+                    input(type="hidden", name="since", value=`${mattaritime}`)
+                    input(type="hidden", name="until", value="")
+                    button(type="submit") ヽ(´ー｀)ノロード     
             hr
             -   for (const msg of messages)
                     a(name=(msg._id))
@@ -95,18 +104,33 @@ html(lang="ja")
                         small 
                             a(href=`/bbs/follow/${msg._id}`) ■ 
                             a(href=`/bbs/thread/${msg.threadid}`) ◆ 
-                        - content = msg.content.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
+                        - let content1 = msg.content.replace(/^(>.*)$/g, '<span class="quote">$1</span>') 
+                        - content1 = content1.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)\b/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
+                        - content2 = msg.content.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)\b/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
+                        if msg.parentId
+                           
                         p#message 
-                            != content.replace(/\n/g, "<br>") 
+                            if msg.parentId 
+                                != content1.replace(/\n/g, "<br>") 
+                            else 
+                                != content2.replace(/\n/g, "<br>") 
+                        <br>
+                        if msg.parentId 
+                            a(href=`/bbs/follow/${msg.parentId}`) 参考：#{msg.date.toLocaleString()}
+                                        
                     hr
             - lastmsgdate = messages[messages.length-1].date.getTime()
             =mattaritime
-            - nextaddress = `https://kuzuha-ja.onrender.com/bbs/read?mattari=${mattaritime}&since=${since}&until=${lastmsgdate}` //+ "&mem=" + memmessagedate
-                form(action="/bbs", method="get") 
+            - nextaddress = `/bbs/read`
+            .ReloadForm 
+                form(action=nextaddress, method="get")
+                    input(type="hidden", name="mattari", value=`${mattaritime}`)
+                    input(type="hidden", name="since", value=`${since}`)
+                    input(type="hidden", name="until", value=`${lastmsgdate}`)
                     input(type="submit", formaction=nextaddress, value="次のページ")  
-                    | 
+                form(action="/bbs", method="get") 
                     input(type="submit", value="リロード")  
-                    | 
+                form(action="mattariaddress") 
                     input(type="submit", formaction=mattariaddress, value="ヽ(´ー｀)ノロード") 
 
 

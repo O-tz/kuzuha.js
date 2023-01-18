@@ -38,6 +38,7 @@ html(lang="ja")
             input(type="reset", value="消す")
             br
             input(type="hidden", name="targetId", value=`${msg.threadid}`)
+            input(type="hidden", name="parentId", value=`${msg._id}`)
             br
             | 内容
             small 
