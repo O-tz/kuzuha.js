@@ -50,6 +50,7 @@ exports.bbs = async (req, res) => {
         }
     }else {
         //次のページ
+        console.log(req.query)//test
         const until = new Date(parseInt(req.query.until));
         const since = req.query.since ? req.query.since : "";
         let cursor;
