@@ -101,7 +101,7 @@ html(lang="ja")
                     hr
             - lastmsgdate = messages[messages.length-1].date.getTime()
             =mattaritime
-            - nextaddress = `/bbs/read?mattari=${mattaritime}&since=${since}&until=${lastmsgdate}` //+ "&mem=" + memmessagedate
+            - nextaddress = `https://kuzuha-ja.onrender.com/bbs/read?mattari=${mattaritime}&since=${since}&until=${lastmsgdate}` //+ "&mem=" + memmessagedate
                 form(action="/bbs", method="get") 
                     input(type="submit", formaction=nextaddress, value="次のページ")  
                     | 
