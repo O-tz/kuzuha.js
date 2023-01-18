@@ -24,6 +24,8 @@ let helmet = require("helmet");
 // Express //
 let app = express();
 
+const qs = require("qs");
+app.settings("query parser", "extended");
 
 // mongoose 接続設定 //
 let mongoDB = `mongodb+srv://${process.env.username}:${process.env.password}@kuzuhajs.${process.env.mongoDBid}.mongodb.net/kuzuhajs?retryWrites=true&w=majority`

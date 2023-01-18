@@ -3,19 +3,20 @@ let router = express.Router();
 
 // コントローラーを要求
 let bbsController = require("../controllers/bbsController");
-let bbsLogController = require("../controllers/bbsLogController");
-//let uploaderController = require("../controllers/uploaderController");
 
 // BBS 関連ルート //
 
 // GET BBS //
 router.get("/", bbsController.bbs);
-
+/*
 // GET BBS with query //
 // next page
-router.get("/:mattaritime.:since-", bbsController.bbsNextPage);
+router.get("/:mattaritime.:since-", bbsController.bbsIntegration);
 // mattariload
-router.get("/-:until", bbsController.bbsMattariload);
+router.get("/-:until", bbsController.bbsIntegration);
+//次のページ・まったりロード統合
+*/
+router.get("/:mattaritime.:since-:until", bbsController.bbsIntegration);
 
 // POST メッセージ //
 router.post("/", bbsController.bbsMessagePost);

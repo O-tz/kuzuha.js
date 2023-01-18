@@ -16,8 +16,6 @@ html(lang="ja")
             a(href=mail) 連絡先
         |
         p  
-            //- let addrs= hostAddress;
-            //- addrs = addrs + "/bbs";
             form(action="/bbs" , method="post") 
                 |投稿者 
                 input(type="text",name="postPoster", maxlength="30", value ="")
@@ -44,14 +42,14 @@ html(lang="ja")
                         small
                             em （リンクを入れたい場合はここに記入します）
                 br
-                input(type="text", size="70", name="post-url", maxlength="255", value="")
+                input(type="text", size="70", name="postUrl", maxlength="255", value="", disabled)
                 p 
                     small
                         del 表示件数 
-                        input(type="text", size="6", name="post-number-of-posts-displayed")
-                        //-smaller 
+                        input(type="text", size="6", name="numberOfPostsDisplayed", value=`${msgDisp}`, disabled)
+                        -smaller 
                             | URL自動リンク 
-                            input(type="checkbox", name="post-check-auto-link", value="checked", checked="")
+                            input(type="checkbox", name="post-check-auto-link", value="checked", checked="", disabled)
                         
                         input(type="submit", name="setup", value="その他の設定", disabled)
                 small 
@@ -63,9 +61,10 @@ html(lang="ja")
         del ★ : 投稿者検索表示
         | 　 ◆ : スレッド表示 　　　最大登録件数 : ?件
         hr
-        //- address  = hostAddress + "/bbs"
+        
+        - now = Date.now()
         if messages.length == []
-            - mattariaddress = `/bbs/-${mattaritime}`
+            - mattariaddress = `/bbs/${mattaritime}.${mattaritime}-0`
                 form(action="/bbs", method="get") 
                     button(type="submit") リロード 
                     | 
@@ -73,9 +72,9 @@ html(lang="ja")
             hr
         else 
             - firstmsgdate = messages[0].date.getTime()
-            - if (mattaritime == null)
+            - if (!mattaritime)
                 -mattaritime = firstmsgdate
-            - mattariaddress = `/bbs/-${mattaritime}`
+            - mattariaddress = `/bbs/${now}.${mattaritime}-0`
                 form(action="/bbs", method="get") 
                     button(type="submit") リロード 
                     | 
@@ -97,13 +96,11 @@ html(lang="ja")
                         p#message 
                             != content.replace(/\n/g, "<br>") 
                     hr
-            //- address  = `${hostAddress}/bbs`
             - lastmsgdate = messages[messages.length-1].date.getTime()
             - firstmsgdate = messages[0].date.getTime()
-            //- memmessagedate = memorizedFirstMessageDate.getTime()
             =mattaritime
-            - nextaddress = `/bbs/${mattaritime}.${lastmsgdate}-` //+ "&mem=" + memmessagedate
-            - mattariaddress = `/bbs/-${mattaritime}`
+            - since = since ? since : 0
+            - nextaddress = `/bbs/${mattaritime}.${since}-${lastmsgdate}` //+ "&mem=" + memmessagedate
                 form(action="/bbs", method="get") 
                     button(type="submit", formaction=nextaddress) 次のページ 
                     | 

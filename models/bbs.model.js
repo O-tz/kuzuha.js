@@ -10,7 +10,7 @@ let BBSModelSchema = new Schema({
     name: {type: String, default: 'ヽ(´ー｀)ノ'},
     foundedDate: {type: Date, default: date},
     logSave: {type: Number, default: 200},
-    msgDisp: {type: Number, default: 20},
+    msgDisp: {type: Number, default: 30},
     hostAddress: {type: String, default: "https://kuzuha-js.onrender.com"},
     mailAddress: {type: String, default: "no@mail.adress.com"}
 });

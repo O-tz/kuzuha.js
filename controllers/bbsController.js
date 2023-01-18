@@ -4,7 +4,9 @@ let bbsInstance = new BBSModel();
 
 const {body, validationResult} = require("express-validator");
 
-
+const foundedDate = bbsInstance.foundedDate;
+const mailto = bbsInstance.mailAddress;
+let msgDisp = bbsInstance.msgDisp;
 
 
 let async = require("async");
@@ -15,23 +17,22 @@ exports.index = function(req, res){
 };
 
 exports.bbs = async (req, res) => {
-    let limit = bbsInstance.msgDisp;
 
-    let cursor = BBSLogModel.find({}).limit(limit).sort({date: "desc"}).cursor();
+    let cursor = BBSLogModel.find({}).limit(msgDisp).sort({date: "desc"}).cursor();
     let messages = [];
     for (let doc = await cursor.next(); doc != null; doc = await cursor.next()){
         messages.push(doc);
     }
     res.render("bbs", {
-        hostAddress: bbsInstance.hostAddress,
-        mailto: "mailto:" + bbsInstance.mailaddress,
-        foundeddate: bbsInstance.foundedDate.toDateString(),
+        mailto: "mailto:" + mailto,
+        foundeddate: foundedDate,
         messages: messages,
         mattaritime: null
     });
 };
 
 exports.bbsMessagePost = (req, res) => {
+    req.body.numberOfPostsDisplayed;
     if (req.body.postContent != "") {
         let log = new BBSLogModel({
             name: req.body.postPoster,
@@ -50,30 +51,27 @@ exports.bbsMessagePost = (req, res) => {
 };
 
 exports.bbsNextPage = async (req, res) => {
-    let limit = bbsInstance.msgDisp;
     console.log(req.params.since);
     let time = new Date(Number(req.params.since));
     let mattaritime = req.params.mattaritime;
     console.log(mattaritime);
-    let cursor = BBSLogModel.find({}).lt("date", time).limit(limit).sort({date: "desc"}).cursor();
+    let cursor = BBSLogModel.find({}).lt("date", time).limit(msgDisp).sort({date: "desc"}).cursor();
     let messages = [];
     for (let doc = await cursor.next(); doc != null; doc = await cursor.next()){
         messages.push(doc);
     }
     console.log(messages);
     res.render("bbs", {
-        hostAddress: bbsInstance.hostAddress,
-        mailto: "mailto:" + bbsInstance.mailaddress,
-        foundeddate: bbsInstance.foundedDate.toDateString(),
+        mailto: "mailto:" + mailto,
+        foundeddate: foundedDate,
         messages: messages,
         mattaritime: mattaritime
     });
 };
 
 exports.bbsMattariload = async (req, res) => {
-    let limit = bbsInstance.msgDisp;
     let time = new Date(Number(req.params["until"]));
-    let cursor = BBSLogModel.find({}).gt("date", time).limit(limit).sort({date: "desc"}).cursor();
+    let cursor = BBSLogModel.find({}).gt("date", time).limit(msgDisp).sort({date: "desc"}).cursor();
     let messages = [];
     for (let doc = await cursor.next(); doc != null; doc = await cursor.next()){
         //console.log(doc);
@@ -119,4 +117,21 @@ exports.bbsThreadShow = async (req, res) => {
         messages: messages
     })
 
+}
+
+exports.bbsIntegration = async (req, res) => {
+    const mattaritime = req.params.mattaritime ? req.params.mattaritime : "";
+    const since = req.params.since ? new Date(parseInt(req.params.since)) : new Date(0);
+    const until = req.params.until ? new Date(parseInt(req.params.until)) : new Date(Date.now());
+    let cursor = BBSLogModel.find({"date": {$gt: since, $lt: until}}).limit(msgDisp).sort({date: "desc"}).cursor();
+    let messages = [];
+    for (let doc = await cursor.next(); doc != null; await cursor.next()) {
+        messages.push(doc);
+    }
+    res.render("bbs", {
+        mattaritime: mattaritime,
+        messages: messages,
+        since: since.getTime(),
+        until: until.getTime(),
+    })
 }
