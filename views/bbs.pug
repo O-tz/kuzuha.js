@@ -104,17 +104,14 @@ html(lang="ja")
                         small 
                             a(href=`/bbs/follow/${msg._id}`) ■ 
                             a(href=`/bbs/thread/${msg.threadid}`) ◆ 
-                        - let content1 = msg.content.replace(/^(>.*)$/g, '<span class="quote">$1</span>') 
+                        - let content1 = msg.content.replace(/^>[.]*$/g, '<span class="quote">$1</span>') 
                         - content1 = content1.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)\b/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
                         - content2 = msg.content.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)\b/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
-                        if msg.parentId
-                           
                         p#message 
                             if msg.parentId 
                                 != content1.replace(/\n/g, "<br>") 
                             else 
                                 != content2.replace(/\n/g, "<br>") 
-                        <br>
                         if msg.parentId 
                             a(href=`/bbs/follow/${msg.parentId}`) 参考：#{msg.date.toLocaleString()}
                                         
