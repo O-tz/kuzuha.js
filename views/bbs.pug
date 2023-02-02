@@ -95,29 +95,28 @@ html(lang="ja")
                     button(type="submit") ヽ(´ー｀)ノロード     
             hr
             -   for (const msg of messages)
-                    a(name=(msg._id))
+                    //-a(name=(msg._id))
                     article.Message  
                         h1  
                             = msg.title
                         | 投稿者：
                         =msg.name
                         small 
-                            = "投稿日：" + msg.date.toLocaleString() 
+                            = "投稿日：" + msg.date.toLocaleString("ja-JP") 
                         small 
                             a(href=`/bbs/follow/${msg._id}`) ■ 
                             a(href=`/bbs/thread/${msg.threadid}`) ◆ 
                         - let content1 = msg.content.replace(/^>[.]*$/g, '<span class="quote">$1</span>') 
                         - content1 = content1.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)\b/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
                         - content2 = msg.content.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)\b/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
-                        <p>
-                            pre.Content
+                        .Content 
+                            pre
                                 if msg.parentId 
                                     !=content1
                                 else 
                                     !=content2
                             if msg.parentId 
-                                a(href=`/bbs/follow/${msg.parentId}`) 参考：#{msg.date.toLocaleString()}
-                        </p>
+                                a(href=`/bbs/follow/${msg.parentId}`) 参考：#{msg.date.toLocaleString("ja-JP")}
                     hr
             - lastmsgdate = messages[messages.length-1].date.getTime()
             //-=mattaritime
