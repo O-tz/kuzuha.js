@@ -1,18 +1,18 @@
-// モジュールの読み込み //
-//Express モジュールの読み込み
-let express = require('express');
-//mongooseモジュールの読み込み
-let mongoose = require('mongoose');
+/**
+ * Module dependencies.
+ */
+const createError = require("http-errors");
+const express = require("express");
+const mongoose = require("mongoose");
+const logger = require("morgan");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+
+
 // favicon
 //let favicon = require("serve-favicon");
-//logger モジュールの読み込み
-let logger = require("morgan");
-// path モジュールの読み込み
-let path = require("path");
-// cookie-parser の読み込み
-let cookieParser = require("cookie-parser");
 
-// ルーターの読み込み //
+// ルーターの設定 //
 let indexRouter = require("./routes/index");
 let bbsRouter = require("./routes/bbs");
 //let bbsLogRouter = require("./routes/bbslog");
