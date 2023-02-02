@@ -7,22 +7,21 @@ const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const compression = require("compression");
+const helmet = require("helmet");
 
 
 // favicon
 //let favicon = require("serve-favicon");
 
 // ルーターの設定 //
-let indexRouter = require("./routes/index");
-let bbsRouter = require("./routes/bbs");
-//let bbsLogRouter = require("./routes/bbslog");
+const indexRouter = require("./routes/index");
+const bbsRouter = require("./routes/bbs");
+//const bbsLogRouter = require("./routes/bbslog");
 
-// あんまよくわかってない //
-let compression = require("compression");
-let helmet = require("helmet");
 
 // Express //
-let app = express();
+const app = express();
 
 
 // mongoose 接続設定 //
