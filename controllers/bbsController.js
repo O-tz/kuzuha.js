@@ -17,6 +17,11 @@ exports.index = function(req, res){
 };
 
 exports.bbs = async (req, res) => {
+/*
+    クエリにmattariの値がある→次ページ遷移
+                        ない→sinceの値がある→マッタリロード
+                        　　      　　　ない→indexへ
+*/
     if (!req.query.mattari) {
         if(!req.query.since){
             let cursor = BBSLogModel.find({}).limit(msgDisp).sort({date: "desc"}).cursor();
