@@ -15,7 +15,7 @@ html(lang="ja")
                     | 投稿者：
                     =msg.name
                     small 
-                        = "投稿日：" + msg.date.toLocaleString() 
+                        = "投稿日：" + msg.date.toLocaleString("ja-JP") 
                     small 
                         a(href=`/bbs/follow/${msg._id}`) ■ 
                         a(href=`/bbs/thread/${msg.threadid}`) ◆ 
