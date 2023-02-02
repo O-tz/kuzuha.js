@@ -1,15 +1,9 @@
-h1#title {
-    display: inline;
-    font-size: large;
-}
-
+/*
+全体
+*/
 body {
     background-color: #004040;
     color: aliceblue;
-}
-
-blockquote .quote {
-    color: #d1d1d1;
 }
 
 a:link {
@@ -22,13 +16,34 @@ a:active {
     color: #ff0000;
 }
 
+/*
+タイトル・フォーム
+*/
+header {
+    padding: auto;
+    margin-bottom: 1rem;
+}
+strong#title {
+    font-size: large;
+}
+
+section.Explanation {
+    font-size: small;
+}
+
+
 #message {
     padding-left: 3em;
     font-size: smaller;
 }
 
-html {
-    font-size: -1;
+article.Message h1 {
+    display: inline;
+    font-size: 1rem;
+}
+
+pre.Content {
+    padding-left: 2rem;
 }
 
 .ReloadForm form {
