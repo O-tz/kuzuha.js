@@ -15,7 +15,7 @@ html(lang="ja")
             - let mail= mailto;
             a(href=mail) 連絡先
         |
-        .PostForm
+        section.PostForm
             form(action="/bbs" , method="post") 
                 |投稿者 
                 input(type="text",name="postPoster", maxlength="30", value ="")
@@ -57,9 +57,10 @@ html(lang="ja")
                         let cntr = counter 
                     = founddate +  "から " + "cntr  \(こわれにくさレベル#{level-not-doomedness}\)　現在の参加者 : #{number-participants} \(300秒以内\)"
         hr 
-        |■ : フォロー投稿画面表示 　 
-        del ★ : 投稿者検索表示
-        | 　 ◆ : スレッド表示 　　　最大登録件数 : ?件
+        section.Explanation 
+            |■ : フォロー投稿画面表示 　 
+            del ★ : 投稿者検索表示
+            | 　 ◆ : スレッド表示 　　　最大登録件数 : ?件
         hr
         
         - now = Date.now()
