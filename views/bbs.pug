@@ -6,15 +6,16 @@ html(lang="ja")
         title あやしいわーるど＠js
         link(rel="stylesheet", href="/css/bbs.css")
     body
-        h1#title  あやしいわーるど＠js
-        | 
-        small
-            a(href="/") 広報室
-        |    
-        small
-            - let mail= mailto;
-            a(href=mail) 連絡先
-        |
+        header
+            strong#title あやしいわーるど＠js
+            | 
+            small
+                a(href="/") 広報室
+            |    
+            small
+                - let mail= mailto;
+                a(href=mail) 連絡先
+            |
         section.PostForm
             form(action="/bbs" , method="post") 
                 |投稿者 
@@ -95,8 +96,8 @@ html(lang="ja")
             hr
             -   for (const msg of messages)
                     a(name=(msg._id))
-                    h3 
-                        strong 
+                    article.Message  
+                        h1  
                             = msg.title
                         | 投稿者：
                         =msg.name
@@ -108,14 +109,15 @@ html(lang="ja")
                         - let content1 = msg.content.replace(/^>[.]*$/g, '<span class="quote">$1</span>') 
                         - content1 = content1.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)\b/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
                         - content2 = msg.content.replace(/\b(http|https):\/\/([^\s]*\.[^\s]*)\b/g, '<a href="$1:\/\/$2">$1:\/\/$2</a>')
-                        p#message 
+                        <p>
+                            pre.Content
+                                if msg.parentId 
+                                    !=content1
+                                else 
+                                    !=content2
                             if msg.parentId 
-                                != content1.replace(/\n/g, "<br>") 
-                            else 
-                                != content2.replace(/\n/g, "<br>") 
-                        if msg.parentId 
-                            a(href=`/bbs/follow/${msg.parentId}`) 参考：#{msg.date.toLocaleString()}
-                                        
+                                a(href=`/bbs/follow/${msg.parentId}`) 参考：#{msg.date.toLocaleString()}
+                        </p>
                     hr
             - lastmsgdate = messages[messages.length-1].date.getTime()
             =mattaritime
