@@ -32,11 +32,6 @@ section.Explanation {
 }
 
 
-#message {
-    padding-left: 3em;
-    font-size: smaller;
-}
-
 article.Message h1 {
     display: inline;
     font-size: 1rem;
@@ -50,6 +45,6 @@ pre.Content {
     display: inline;
 }
 
-#message .quote {
+pre.Content .quote {
     color: #d1d1d1;
 }
