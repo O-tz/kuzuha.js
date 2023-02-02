@@ -9,10 +9,8 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
 const helmet = require("helmet");
+const favicon = require("serve-favicon");
 
-
-// favicon
-//let favicon = require("serve-favicon");
 
 // ルーターの設定 //
 const indexRouter = require("./routes/index");
@@ -23,6 +21,8 @@ const bbsRouter = require("./routes/bbs");
 // Express //
 const app = express();
 
+//faviconの設定
+app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 // mongoose 接続設定 //
 let mongoDB = `mongodb+srv://${process.env.username}:${process.env.password}@kuzuhajs.${process.env.mongoDBid}.mongodb.net/kuzuhajs?retryWrites=true&w=majority`
