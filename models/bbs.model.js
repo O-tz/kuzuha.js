@@ -15,10 +15,6 @@ let BBSModelSchema = new Schema({
     mailAddress: {type: String, default: "no@mail.adress.com"}
 });
 
-// bbs インスタンスの URL 用 Virtual
-BBSModelSchema.virtual("url").get(function(){
-    return "/bbs/" + BBSModelSchema.name;
-})
 
 // モデルのエクスポート
 module.exports = mongoose.model("BBSModel", BBSModelSchema);
