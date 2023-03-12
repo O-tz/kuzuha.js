@@ -34,12 +34,18 @@ app.set('view engine', 'pug');
 // ルーターの設定
 const indexRouter = require("./routes/index");
 const bbsRouter = require("./routes/bbs");
-const { Console } = require("console");
 //const bbsLogRouter = require("./routes/bbslog");
 app.use("/", indexRouter);
 app.use("/bbs", bbsRouter);
 //app.use("/up", uploaderRouter);
 //app.use("/bbslog", bbsLogRouter);
+
+// req.body を key-value の組にするための設定
+const bodyParser = require('body-parser');
+const multer = require('multer')
+const upload = multer() // for parsing multipart/form-data
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 //静的ファイルの場所の設定
 app.use(express.static(path.join(__dirname, "public")));
