@@ -1,33 +1,19 @@
 #!/usr/bin/env node
 
 /**
- * Module dependencies.
+ * Express オブジェクト
  */
-
 var app = require('../app');
-var debug = require('debug')('kuzuha.js:server');
-var http = require('http');
-
-/**
- * Get port from environment and store in Express.
- */
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+app.listen(port);
+app.on('error', onError);
+app.on('listening', onListening);
 
-/**
- * Create HTTP server.
- */
+var debug = require('debug')('kuzuha.js:server');
 
-var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+//以下のメソッドは Express generator によって作られた。
 
 /**
  * Normalize a port into a number, string, or false.
