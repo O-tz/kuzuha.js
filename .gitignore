@@ -1,3 +1,4 @@
 /bin/local-www
 /app.local.js
 /.env
+/node_modules/
