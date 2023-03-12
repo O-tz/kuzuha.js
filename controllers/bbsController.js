@@ -81,8 +81,9 @@ exports.bbs = async (req, res) => {
 };
 
 exports.bbsMessagePost = (req, res) => {
-    req.body.numberOfPostsDisplayed;
-    if (req.body.postContent != "") {
+    //TODO: 直下のコメントアウトしたコードは何のためにあるか分からず。リリース時に消す。
+    //req.body.numberOfPostsDisplayed;
+    if (req.body.postContent) {
         let log = new BBSLogModel({
             name: req.body.postPoster,
             title: req.body.postTitle,
